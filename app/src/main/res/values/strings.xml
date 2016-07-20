@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">AFFIX</string>
+
+    // Strings for the Register Student Page
+    <string name="welcome">Welcome to AFFIX-UCSB</string>
+    <string name="prompt">Please fill out the info below to sign up</string>
+    <string name="first_name">First Name:</string>
+    <string name="last_name">Last Name:</string>
+    <string name="umail">Umail:</string>
+    <string name="end_umail">\@umail.ucsb.edu</string>
+    <string name="perm">Perm:</string>
+    <string name="phone">Phone:</string>
+    <string name="major">Major:</string>
+    <string name="residence">Current Resident of:</string>
+    <string name="password">Password:</string>
+    <string name="confirm_password">Confirm Password:</string>
+    <string name="Warning"> Ensure that you have entered in the proper prefix to you umail account and perm number.
+    You will receive an email to complete the registration process in your umail account.</string>
+    <string name="register"> Register </string>
+
+    //Strings of Majors
+    <string-array name="Majors">
+        <item> Chemical Engineering </item>
+        <item> Electrical Engineering </item>
+        <item> Computer Engineering </item>
+        <item> Computer Science </item>
+        <item> Mechanical Engineering </item>
+    </string-array>
+
+    //Strings of Living Spaces
+    <string-array name="LivingSpaces">
+        <item> Anacapa </item>
+        <item> San Miguel </item>
+        <item> San Nicolas</item>
+        <item> Santa Cruz </item>
+        <item> Santa Rosa </item>
+        <item> San Rafael </item>
+        <item> Manzanita </item>
+        <item> Santa Catalina North</item>
+        <item> Santa Catalina South</item>
+    </string-array>
+
+
+
+    //Strings for the Login Student Page
+    <string name="Affix">AFFIX-UCSB</string>
+    <string name="Username">Username:</string>
+    !- Password string is declared earlier -!
+    <string name="hintuser">Umail Prefix unless changed</string>
+    <string name="goRegister">Don\'t have an account? Register here.</string>
+    <string name="login"> Login </string>
+
+</resources>
