@@ -243,6 +243,13 @@
             android:clickable="true"
             android:onClick="REGISTER"/>
 
+        <TextView
+            android:id="@+id/confirmation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/submit"
+            android:text="" />
+
 
 </RelativeLayout>
 </ScrollView>

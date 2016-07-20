@@ -1,13 +1,18 @@
 package com.ucsbapp.phillip.affix;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -41,6 +46,28 @@ public class RegisterStudent extends AppCompatActivity {
         majorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         majors.setAdapter(majorAdapter);
     }
+
+    public void REGISTER(View v){
+        View view = LayoutInflater.from(RegisterStudent.this).inflate(R.layout.confcoderegister,null);
+
+        final TextView result = (TextView)findViewById(R.id.confirmation);
+
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(RegisterStudent.this);
+        alertBuilder.setView(view);
+        final EditText userInput = (EditText)findViewById(R.id.inputcode);
+        alertBuilder.setCancelable(true).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                result.setText(userInput.getText());
+            }
+        });
+        Dialog dialog = alertBuilder.create();
+        dialog.show();
+    }
+
+
+
+    /*
 
     EditText firstname, lastname, umail, phoneNUM, password, confpassword;
     Spinner major, residence;
@@ -124,5 +151,5 @@ public class RegisterStudent extends AppCompatActivity {
 
     }
 
-
+*/
 }

@@ -17,6 +17,7 @@
     <string name="Warning"> Ensure that you have entered in the proper prefix to you umail account and perm number.
     You will receive an email to complete the registration process in your umail account.</string>
     <string name="register"> Register </string>
+    <string name="confirm">Confirm Account</string>
 
     //Strings of Majors
     <string-array name="Majors">
