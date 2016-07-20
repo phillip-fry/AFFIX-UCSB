@@ -45,20 +45,23 @@ public class RegisterStudent extends AppCompatActivity {
                 android.R.layout.simple_spinner_item);
         majorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         majors.setAdapter(majorAdapter);
+
     }
+
 
     public void REGISTER(View v){
         View view = LayoutInflater.from(RegisterStudent.this).inflate(R.layout.confcoderegister,null);
 
-        final TextView result = (TextView)findViewById(R.id.confirmation);
+        final TextView result = (TextView) findViewById(R.id.confirmation);
 
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(RegisterStudent.this);
         alertBuilder.setView(view);
-        final EditText userInput = (EditText)findViewById(R.id.inputcode);
+        final EditText userInput = (EditText)view.findViewById(R.id.inputcode);
         alertBuilder.setCancelable(true).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                result.setText(userInput.getText());
+            public void onClick(DialogInterface dialog, int which) {
+                String usertext = userInput.getText().toString();
+                result.setText(usertext);
             }
         });
         Dialog dialog = alertBuilder.create();
