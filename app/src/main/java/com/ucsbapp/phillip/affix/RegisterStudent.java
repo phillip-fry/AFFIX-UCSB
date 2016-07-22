@@ -3,10 +3,14 @@ package com.ucsbapp.phillip.affix;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Message;
+import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -15,15 +19,30 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ucsbapp.phillip.affix.mail.GMailSender;
+import com.ucsbapp.phillip.affix.mail.SMTPMail;
+import com.ucsbapp.phillip.affix.mail.SendMail;
+import com.ucsbapp.phillip.affix.mail.mail;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Properties;
 import java.util.jar.Attributes;
 
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 public class RegisterStudent extends AppCompatActivity {
+
+    private mail M;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +57,6 @@ public class RegisterStudent extends AppCompatActivity {
         currentResidence.setAdapter(staticAdapter);
 
 
-
         // Sets the Array list Majors into the Spinner
         Spinner majors = (Spinner) findViewById(R.id.MajorSpinner);
         ArrayAdapter<CharSequence> majorAdapter = ArrayAdapter.createFromResource(this, R.array.Majors,
@@ -46,29 +64,128 @@ public class RegisterStudent extends AppCompatActivity {
         majorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         majors.setAdapter(majorAdapter);
 
+        //Set the email account to send the confirmation email
+        M = new mail("phillipfry5@gmail.com", "fryball7");
+
+
     }
 
 
-    public void REGISTER(View v){
-        View view = LayoutInflater.from(RegisterStudent.this).inflate(R.layout.confcoderegister,null);
+    private void sendEmail(){
+        EditText edittextemail = (EditText)findViewById(R.id.umailpreffix);
 
+        //String emailSend = (edittextemail.getText().toString() + "@umail.ucsb.edu").trim();
+        String emailSend = ("phillipfry5@gmail.com").trim();
+        String subject = ("Test Sub").trim();
+        String body = ("Testing").trim();
+
+        SendMail sm = new SendMail(this, emailSend, subject, body);
+
+        sm.execute();
+    }
+
+
+
+    public void REGISTER(View v) {
+        View view = LayoutInflater.from(RegisterStudent.this).inflate(R.layout.confcoderegister, null);
+
+        //allows us to print at bottom of the register button
         final TextView result = (TextView) findViewById(R.id.confirmation);
 
+        //allows us to get the user input in the umail section and add the @umail part
+        final EditText emailprefix = (EditText) findViewById(R.id.umailpreffix);
+        String emailpretext = emailprefix.getText().toString();
+        final String email = emailpretext + "@umail.ucsb.edu";
+
+        sendEmail();
+    }
+
+
+
+        /*
+        Properties props = new Properties();
+        props.put("mail.smtp.host","smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
+
+        Session session = Session.getDefaultInstance(props,new javax.mail.Authenticator(){
+            protected PasswordAuthentication getPasswordAuthentication(){
+                return new PasswordAuthentication("philfry125@gmail.com", "fryball7");
+            }
+        });
+        try{
+            MimeMessage message = new MimeMessage(session);
+            message.setSender(new InternetAddress("philfry125@gmail.com"));
+            message.addRecipients(MimeMessage.RecipientType.TO, InternetAddress.parse("phillipfry5@gmail.com"));
+            message.setSubject("Test");
+            message.setContent("Hello to AFFIX","text/html; charset=utf-8");
+
+            Transport transport = session.getTransport("smtps");
+            transport.connect("philfry125@gmail.com", "Phillip Fry", "fryball7");
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
+            //Transport.connect();
+            //Transport.send(message);
+            //Transport.close();
+        }
+        catch (MessagingException e){
+            throw new RuntimeException(e);
+        }
+*/
+
+    //mail M = new mail("philfry125@gmail.com", "fryball7");
+/*
+        GMailSender sender = new GMailSender("philfry125@gmail.com","fryball7");
+        try {
+            sender.sendMail("Email Subject", "<b>Hi</b><br/>Complete msg with html tags.", "philfry125@gmail.com", "phillipfry5@gmail.com", "phillip_fry@umail.ucsb.edu");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //thread.start();
+*/
+/*
+        String TOArray[] = {email};
+        M.setTo(TOArray);
+        M.setFrom("phillipfry5@gmail.com");
+        M.setSubject("Welcome to AFFIX-UCSB");
+        M.setBody("You are the first user to receive an email. App created by Phillip Fry");
+
+
+        try {
+            M.send();
+            if (M.send()) {
+                // success
+                Toast.makeText(RegisterStudent.this, "Email was sent successfully.", Toast.LENGTH_LONG).show();
+            } else {
+                // failure
+                Toast.makeText(RegisterStudent.this, "Email was not sent.", Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            // some other problem
+            Toast.makeText(RegisterStudent.this, "There was a problem sending the email.", Toast.LENGTH_LONG).show();
+        }
+*/
+
+    //Makes the popup dialog for the user to input the confirmation code
+        /*
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(RegisterStudent.this);
         alertBuilder.setView(view);
         final EditText userInput = (EditText)view.findViewById(R.id.inputcode);
+
         alertBuilder.setCancelable(true).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String usertext = userInput.getText().toString();
-                result.setText(usertext);
+                result.setText(email);
+
+
             }
         });
         Dialog dialog = alertBuilder.create();
         dialog.show();
-    }
-
-
+        */
 
     /*
 
@@ -100,59 +217,7 @@ public class RegisterStudent extends AppCompatActivity {
         b.execute();
 
     }
-
-    class Background extends AsyncTask<String,String,String>{
-        @Override
-        protected String doInBackground(String... params){
-            String firstname = params[0];
-            String lastname = params[1];
-            String umail = params[2];
-            String phoneNUM = params[3];
-            String major = params[4];
-            String residence = params[5];
-            String password = params[6];
-            String data="";
-            int tmp;
-
-            try{
-                URL url = new URL("http://185.27.134.9/index.php");
-                String urlParams = "First Name"+firstname+"Last Name"+lastname+"umail"+umail
-                        +"phone #"+phoneNUM+"Major"+major+"Current Residence"+residence+"Password"+password;
-
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setDoOutput(true);
-                OutputStream os = httpURLConnection.getOutputStream();
-                os.write(urlParams.getBytes());
-                os.flush();
-                os.close();
-                InputStream is = httpURLConnection.getInputStream();
-                while((tmp=is.read())!=-1){
-                    data+=(char)tmp;
-                }
-                is.close();
-                httpURLConnection.disconnect();
-
-                return data;
-
-            } catch (MalformedURLException e){
-                e.printStackTrace();
-                return "Exception:" + e.getMessage();
-            } catch (IOException e){
-                e.printStackTrace();
-                return "Exception:" + e.getMessage();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String s){
-            if(s.equals("")){
-                s="Data saved sucessfully.";
-            }
-            Toast.makeText(ctx,s,Toast.LENGTH_LONG).show();
-        }
-
-
-    }
-
-*/
+    */
 }
+
+
