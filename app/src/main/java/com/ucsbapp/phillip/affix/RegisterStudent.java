@@ -101,6 +101,14 @@ public class RegisterStudent extends AppCompatActivity {
             }
         });
 
+        alertBuilder.setCancelable(false).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+
         final AlertDialog dialog = alertBuilder.create();
         dialog.show();
 

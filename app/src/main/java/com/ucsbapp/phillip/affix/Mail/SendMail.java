@@ -45,6 +45,8 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
         this.message = message;
     }
 
+    int diditsend = 0;
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -58,7 +60,12 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
         //Dismissing the progress dialog
         progressDialog.dismiss();
         //Showing a success message
-        Toast.makeText(context,"Confirmation Code Sent",Toast.LENGTH_LONG).show();
+        if(diditsend == 0) {
+            Toast.makeText(context, "Confirmation Code Sent", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(context, "Firewalls suck", Toast.LENGTH_LONG).show();
+
+        }
     }
 
     @Override
@@ -101,6 +108,8 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
 
         } catch (MessagingException e) {
             e.printStackTrace();
+            diditsend = 1;
+
         }
         return null;
     }
