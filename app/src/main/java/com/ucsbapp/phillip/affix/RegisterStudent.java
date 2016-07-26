@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,19 +20,28 @@ import android.widget.Toast;
 
 import com.ucsbapp.phillip.affix.Mail.SendMail;
 
+import java.io.BufferedWriter;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.URL;
 import java.util.Random;
 
 import javax.mail.Authenticator;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
+import javax.microedition.khronos.egl.EGLDisplay;
+import javax.net.ssl.HttpsURLConnection;
+
+import static android.R.attr.type;
 
 
 public class RegisterStudent extends AppCompatActivity {
 
    private Button registerbtn;
    private EditText reciep;
-
+    EditText firstname, lastname, umail, password, confpassword, phonenum;
+    Spinner major, currentres;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +64,14 @@ public class RegisterStudent extends AppCompatActivity {
         majors.setAdapter(majorAdapter);
 
         //Set the email account to send the confirmation email
+        firstname = (EditText)findViewById(R.id.first_name);
+        lastname = (EditText)findViewById(R.id.last_name);
+        major = (Spinner)findViewById(R.id.MajorSpinner);
+        currentres = (Spinner)findViewById(R.id.ResidenceSpinner);
+        password = (EditText)findViewById(R.id.password);
+        confpassword = (EditText)findViewById(R.id.confirmpassword);
+        phonenum = (EditText)findViewById(R.id.phone);
+
 
 
     }
@@ -78,11 +96,31 @@ public class RegisterStudent extends AppCompatActivity {
         char three = (char)(var.nextInt(26) + 'a');
         int first = var.nextInt(100) + 1;
         int second = var.nextInt(100) + 1;
-        String firstnum = Integer.toString(first);
+        final String firstnum = Integer.toString(first);
         String secondnum = Integer.toString(second);
         final String code = one + firstnum + two + secondnum + three;
         String body = "Welcome to AFFIX-UCSB." + "\n" + "Your Confirmation Code is " +
                 code + "\n" + "\n" + "Created by Phillip Fry";
+
+
+
+
+        //push to database
+        String FirstName = firstname.getText().toString();
+        String LastName = lastname.getText().toString();
+        String Major = major.getSelectedItem().toString();
+        String CurrentResidence = currentres.getSelectedItem().toString();
+        String Password = password.getText().toString();
+        String confpswd = confpassword.getText().toString();
+        String phone = phonenum.getText().toString();
+        String type = "Register";
+        backgroundFunctions background = new backgroundFunctions(RegisterStudent.this);
+        background.execute(type, FirstName, LastName, email, Major, CurrentResidence, Password, phone);
+
+
+
+
+
 
         //Creating SendMail object
         SendMail sm = new SendMail(this,email,"Welcome to AFFIX-UCSB", body);
@@ -122,6 +160,21 @@ public class RegisterStudent extends AppCompatActivity {
                     Intent intent = new Intent(RegisterStudent.this, HomeScreen.class);
                     startActivity(intent);
                     wantToCloseDialog = true;
+
+                    /*
+                    //push to database
+                    String FirstName = firstname.getText().toString();
+                    String LastName = lastname.getText().toString();
+                    String Major = major.getSelectedItem().toString();
+                    String CurrentResidence = currentres.getSelectedItem().toString();
+                    String Password = password.getText().toString();
+                    String confpswd = confpassword.getText().toString();
+                    String phone = phonenum.getText().toString();
+                    String type = "Register";
+                    backgroundFunctions background = new backgroundFunctions(RegisterStudent.this);
+                    background.execute(type, FirstName, LastName, email, Major, CurrentResidence, Password, phone);
+                    */
+
                 } else {
                     Toast.makeText(getApplicationContext(),"Incorrect Code",Toast.LENGTH_LONG).show();
                 }
