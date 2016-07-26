@@ -3,6 +3,7 @@ package com.ucsbapp.phillip.affix;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -19,8 +20,96 @@ import java.net.URLEncoder;
 /**
  * Created by admin on 7/26/16.
  */
+//String, Void, String
 
-public class backgroundFunctions  extends AsyncTask<String, Void, String> {
+ public class backgroundFunctions  extends AsyncTask<String,Void,String> {
+
+    Context context;
+    AlertDialog alertDialog;
+
+    backgroundFunctions(Context ctx) {
+        context = ctx;
+    }
+
+    String type, FirstName, LastName, Umail, Major, CurrentResidence, Password, phonenum;
+    BufferedReader reader;
+
+    @Override
+    protected String doInBackground(String... params) {
+        FirstName = params[1];
+        LastName = params[2];
+        Umail = params[3];
+        Major = params[4];
+        CurrentResidence = params[5];
+        Password = params[6];
+        phonenum = params[7];
+        Log.d("Send Data Values", FirstName + LastName + Umail);
+
+        try {
+            String data = URLEncoder.encode("FirstName", "UTF-8") + "=" + URLEncoder.encode(FirstName, "UTF-8");
+            data += "&" + URLEncoder.encode("LastName", "UTF-8") + "=" + URLEncoder.encode(LastName, "UTF-8");
+            data += "&" + URLEncoder.encode("Umail", "UTF-8") + "=" + URLEncoder.encode(Umail, "UTF-8");
+            data += "&" + URLEncoder.encode("Major", "UTF-8") + "=" + URLEncoder.encode(Major, "UTF-8");
+            data += "&" + URLEncoder.encode("CurrentResidence", "UTF-8") + "=" + URLEncoder.encode(CurrentResidence, "UTF-8");
+            data += "&" + URLEncoder.encode("Password", "UTF-8") + "=" + URLEncoder.encode(Password, "UTF-8");
+            data += "&" + URLEncoder.encode("phonenum", "UTF-8") + "=" + URLEncoder.encode(phonenum, "UTF-8");
+
+            URL url = new URL("http://phillipucsbapp.byethost33.com/registrationconnect.php");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+
+            //For POST Only - Begin
+            connection.setDoOutput(true);
+            OutputStream os = connection.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+            writer.write(data);
+            writer.flush();
+            writer.close();
+            os.close();
+            connection.connect();
+            //For POST Only End
+            int responseCode = connection.getResponseCode();
+            Log.d("Sending Class----", "POST RESPONSE CODE " + responseCode);
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                //Success
+                reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+
+                while ((inputLine = reader.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                reader.close();
+
+                //Print Result
+                Log.d("SENDING CLASS----", response.toString());
+
+            } else {
+                Log.d("SENDING CLASS---", "POST did not work");
+
+            }
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        return null;
+    }
+
+}
+
+
+
+
+
+    /*
     Context context;
     AlertDialog alertDialog;
 
@@ -86,4 +175,4 @@ public class backgroundFunctions  extends AsyncTask<String, Void, String> {
     }
 }
 
-
+*/
