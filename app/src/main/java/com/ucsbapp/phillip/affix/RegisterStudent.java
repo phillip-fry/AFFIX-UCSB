@@ -114,9 +114,9 @@ public class RegisterStudent extends AppCompatActivity {
         String confpswd = confpassword.getText().toString();
         String phone = phonenum.getText().toString();
         String type = "Register";
-        backgroundFunctions background = new backgroundFunctions(RegisterStudent.this);
-        background.execute(type, FirstName, LastName, email, Major, CurrentResidence, Password, phone);
-
+        //backgroundFunctions background = new backgroundFunctions(RegisterStudent.this);
+        //background.execute(type, FirstName, LastName, email, Major, CurrentResidence, Password, phone);
+        new backgroundFunctions(this).execute(FirstName, LastName, email, Major, CurrentResidence, Password, phone);
 
 
 

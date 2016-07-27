@@ -4,6 +4,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,155 +28,81 @@ import java.net.URLEncoder;
 
  public class backgroundFunctions  extends AsyncTask<String,Void,String> {
 
-    Context context;
-    AlertDialog alertDialog;
+    private Context context;
+    //AlertDialog alertDialog;
 
-    backgroundFunctions(Context ctx) {
-        context = ctx;
+    public backgroundFunctions(Context ctx) {
+        this.context = ctx;
     }
 
     String type, FirstName, LastName, Umail, Major, CurrentResidence, Password, phonenum;
     BufferedReader reader;
 
+    protected void onPreExecute() {
+
+    }
+
     @Override
     protected String doInBackground(String... params) {
-        FirstName = params[1];
-        LastName = params[2];
-        Umail = params[3];
-        Major = params[4];
-        CurrentResidence = params[5];
-        Password = params[6];
-        phonenum = params[7];
+        FirstName = params[0];
+        LastName = params[1];
+        Umail = params[2];
+        Major = params[3];
+        CurrentResidence = params[4];
+        Password = params[5];
+        phonenum = params[6];
         Log.d("Send Data Values", FirstName + LastName + Umail);
 
+        String link;
+        String data;
+        BufferedReader reader;
+
         try {
-            String data = URLEncoder.encode("FirstName", "UTF-8") + "=" + URLEncoder.encode(FirstName, "UTF-8");
-            data += "&" + URLEncoder.encode("LastName", "UTF-8") + "=" + URLEncoder.encode(LastName, "UTF-8");
-            data += "&" + URLEncoder.encode("Umail", "UTF-8") + "=" + URLEncoder.encode(Umail, "UTF-8");
-            data += "&" + URLEncoder.encode("Major", "UTF-8") + "=" + URLEncoder.encode(Major, "UTF-8");
-            data += "&" + URLEncoder.encode("CurrentResidence", "UTF-8") + "=" + URLEncoder.encode(CurrentResidence, "UTF-8");
-            data += "&" + URLEncoder.encode("Password", "UTF-8") + "=" + URLEncoder.encode(Password, "UTF-8");
-            data += "&" + URLEncoder.encode("phonenum", "UTF-8") + "=" + URLEncoder.encode(phonenum, "UTF-8");
+            data = "?FirstName=" + URLEncoder.encode(FirstName, "UTF-8");
+            data += "&LastName=" + URLEncoder.encode(LastName, "UTF-8");
+            data += "&Umail=" + URLEncoder.encode(Umail, "UTF-8");
+            data += "&Major=" + URLEncoder.encode(Major, "UTF-8");
+            data += "&CurrentResidence=" + URLEncoder.encode(CurrentResidence, "UTF-8");
+            data += "&Password=" + URLEncoder.encode(Password, "UTF-8");
+            data += "&phonenum=" + URLEncoder.encode(phonenum, "UTF-8");
 
-            URL url = new URL("http://phillipucsbapp.byethost33.com/registrationconnect.php");
+            link = "http://phillipucsbapp.byethost33.com/registrationconnect.php" + data;
+            URL url = new URL(link);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
 
-            //For POST Only - Begin
-            connection.setDoOutput(true);
-            OutputStream os = connection.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-            writer.write(data);
-            writer.flush();
-            writer.close();
-            os.close();
-            connection.connect();
-            //For POST Only End
-            int responseCode = connection.getResponseCode();
-            Log.d("Sending Class----", "POST RESPONSE CODE " + responseCode);
-
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                //Success
-                reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String inputLine;
-                StringBuffer response = new StringBuffer();
-
-                while ((inputLine = reader.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                reader.close();
-
-                //Print Result
-                Log.d("SENDING CLASS----", response.toString());
-
-            } else {
-                Log.d("SENDING CLASS---", "POST did not work");
-
-            }
+            reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String result = reader.readLine();
+            return result;
 
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            return new String("Exception: " + e.getMessage());
         }
-
-
-        return null;
-    }
-
-}
-
-
-
-
-
-    /*
-    Context context;
-    AlertDialog alertDialog;
-
-    backgroundFunctions(Context ctx) {
-        context = ctx;
     }
 
     @Override
-    protected String doInBackground(String... params) {
-        String type = params[0];
-        String register_url = "http://phillipucsbapp.byethost33.com/registrationconnect.php";
-        if (type.equals("Register")) {
-            try{
-                String FirstName = params[1];
-                String LastName = params[2];
-                String Umail = params[3];
-                String Major = params[4];
-                String CurrentResidence = params[5];
-                String Password = params[6];
-                String phonenum = params[7];
-                URL url = new URL(register_url);
-
-                HttpURLConnection httpURLConn = (HttpURLConnection)url.openConnection();
-                httpURLConn.setRequestMethod("POST");
-                httpURLConn.setDoOutput(true);
-                httpURLConn.setDoInput(true);
-                OutputStream outputStream = httpURLConn.getOutputStream();
-                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                String post_data = URLEncoder.encode("FirstName","UTF-8")+"="+URLEncoder.encode(FirstName,"UTF-8")+"&"
-                        + URLEncoder.encode("LastName","UTF-8")+"="+URLEncoder.encode(LastName,"UTF-8")+"&"
-                        + URLEncoder.encode("Umail","UTF-8")+"="+URLEncoder.encode(Umail,"UTF-8")+"&"
-                        + URLEncoder.encode("Major","UTF-8")+"="+URLEncoder.encode(Major,"UTF-8")+"&"
-                        + URLEncoder.encode("CurrentResidence","UTF-8")+"="+URLEncoder.encode(CurrentResidence,"UTF-8")+"&"
-                        + URLEncoder.encode("Password","UTF-8")+"="+URLEncoder.encode(Password,"UTF-8")+"&"
-                        + URLEncoder.encode("phonenum","UTF-8")+"="+URLEncoder.encode(phonenum,"UTF-8")+"&";
-
-                bufferedWriter.write(post_data);
-                bufferedWriter.flush();
-                bufferedWriter.close();
-                outputStream.close();
-                InputStream inputStream = httpURLConn.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"iso-8859-1"));
-                String result="";
-                String line="";
-                while ((line = bufferedReader.readLine())!=null){
-                    result += line;
+    protected void onPostExecute(String result) {
+        String jsonStr = result;
+        if (jsonStr != null) {
+            try {
+                JSONObject jsonObject = new JSONObject(jsonStr);
+                String query_result = jsonObject.getString("query_result");
+                if (query_result.equals("SUCCESS")) {
+                    Toast.makeText(context, "Data inserted successfully. Registered.", Toast.LENGTH_SHORT).show();
+                } else if (query_result.equals("FAILURE")) {
+                    Toast.makeText(context, "Data could not be inserted. Registration failed.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Couldn't connect to remote database.", Toast.LENGTH_SHORT).show();
                 }
-                bufferedReader.close();
-                inputStream.close();
-                httpURLConn.disconnect();
-                return result;
-
-
-            }
-            catch (MalformedURLException e){
+            } catch (JSONException e) {
                 e.printStackTrace();
+                Toast.makeText(context, "Error parsing JSON data.", Toast.LENGTH_SHORT).show();
             }
-            catch(IOException e){
-                e.printStackTrace();
-            }
+        } else {
+            Toast.makeText(context, "Couldn't get any JSON data.", Toast.LENGTH_SHORT).show();
         }
-        return null;
     }
+
 }
 
-*/
+
