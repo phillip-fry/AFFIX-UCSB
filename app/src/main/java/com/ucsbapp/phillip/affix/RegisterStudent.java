@@ -43,6 +43,9 @@ public class RegisterStudent extends AppCompatActivity {
     EditText firstname, lastname, umail, password, confpassword, phonenum;
     Spinner major, currentres;
 
+    private static final String REGISTER_URL = "http://phillipucsbapp.byethost33.com/register.php";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,8 +119,7 @@ public class RegisterStudent extends AppCompatActivity {
         String type = "Register";
         //backgroundFunctions background = new backgroundFunctions(RegisterStudent.this);
         //background.execute(type, FirstName, LastName, email, Major, CurrentResidence, Password, phone);
-        new backgroundFunctions(this).execute(FirstName, LastName, email, Major, CurrentResidence, Password, phone);
-
+        //new backgroundFunctions(this).execute(FirstName, LastName, email, Major, CurrentResidence, Password, phone);
 
 
 
