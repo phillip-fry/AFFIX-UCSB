@@ -63,7 +63,7 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
         if(diditsend == 0) {
             Toast.makeText(context, "Confirmation Code Sent", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(context, "ERROR sending mail", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Error sending mail", Toast.LENGTH_LONG).show();
 
         }
     }

@@ -7,7 +7,7 @@
         android:id="@+id/inputcode"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="test"/>
+        android:text="Passcode from email"/>
 
 
 
