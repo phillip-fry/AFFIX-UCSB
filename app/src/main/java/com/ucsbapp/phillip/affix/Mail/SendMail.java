@@ -18,9 +18,7 @@ import javax.mail.internet.MimeMessage;
  * Created by Phillip Fry on 7/22/2016.
  */
 
-/** Code inspired by Belal Khan
- * https://www.simplifiedcoding.net/android-email-app-using-javamail-api-in-android-studio/
- */
+
 
 public class SendMail extends AsyncTask<Void,Void,Void> {
 
