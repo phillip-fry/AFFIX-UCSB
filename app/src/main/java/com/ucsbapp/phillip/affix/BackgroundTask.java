@@ -145,14 +145,50 @@ public class BackgroundTask  extends AsyncTask<String,Void,String>{
             } catch (IOException e){
                 e.printStackTrace();
             }
+        }
+        //------------------------------------------------------------------
+        // Login user
+        String login_usr = "http://sbaffix.eu.pn/LoginStudentApp.php";
+        if(method.equals("Login")){
+            try{
+                String uname = params[1];
+                String pswd  = params[2];
+                URL log_url = new URL(login_usr);
+                HttpURLConnection httplogin = (HttpURLConnection)log_url.openConnection();
+                httplogin.setRequestMethod("POST");
+                httplogin.setDoOutput(true);
+                httplogin.setDoInput(true);
+                OutputStream OS = httplogin.getOutputStream();
+                BufferedWriter BW = new BufferedWriter(new OutputStreamWriter(OS,"UTF-8"));
+                String data = URLEncoder.encode("UserName","UTF-8") + "=" +URLEncoder.encode(uname,"UTF-8") + "&"
+                        + URLEncoder.encode("Password","UTF-8") + "=" + URLEncoder.encode(pswd,"UTF-8");
+                BW.write(data);
+                BW.flush();
+                BW.close();
+                OS.close();
 
+                InputStream IS = httplogin.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(IS,"iso-8859-1"));
+                String result = "";
+                String line = "";
+                while((line = reader.readLine()) != null){
+                    result += line;
+                }
+                reader.close();
+                IS.close();
+                httplogin.disconnect();
+
+                response = result;
+            }
+            catch (MalformedURLException e){
+                e.printStackTrace();
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
         }
 
-
         return response;
-
-
-
 
     }
 
