@@ -21,15 +21,30 @@
 
     //Strings of Majors
     <string-array name="Majors">
+        <item> College of Engineering</item>
         <item> Chemical Engineering </item>
-        <item> Electrical Engineering </item>
-        <item> Computer Engineering </item>
         <item> Computer Science </item>
+        <item> Computer Engineering </item>
+        <item> Electrical Engineering </item>
+        <item> Materials </item>
         <item> Mechanical Engineering </item>
+        <item> College of Letters &amp; Science </item>
+        <item> Anthropology </item>
+        <item> Art </item>
+        <item> Asian American Studies </item>
+        <item> Biomolecular Science and Engineering </item>
+        <item> Black Studies </item>
+        <item> Chemistry </item>
+        <item> Biochemistry </item>
+
     </string-array>
 
     //Strings of Living Spaces
     <string-array name="LivingSpaces">
+        <item> Non UCSB Housing</item>
+        <item> Isla Vista</item>
+
+        <item>Residence Halls</item>
         <item> Anacapa </item>
         <item> San Miguel </item>
         <item> San Nicolas</item>
@@ -39,6 +54,16 @@
         <item> Manzanita </item>
         <item> Santa Catalina North</item>
         <item> Santa Catalina South</item>
+
+        <item> Apartments </item>
+        <item> El Dorado </item>
+        <item> Santa Ynez </item>
+        <item> West Winds </item>
+        <item> Sierra Madre </item>
+        <item> San Joaquin </item>
+        <item> San Clemente </item>
+
+
     </string-array>
 
 
@@ -46,7 +71,7 @@
     <string name="Affix">AFFIX-UCSB</string>
     <string name="Username">Username:</string>
     !- Password string is declared earlier -!
-    <string name="hintuser">Umail Prefix unless changed</string>
+    <string name="hintuser">Umail prefix unless changed</string>
     <string name="goRegister">Don\'t have an account? Register here.</string>
     <string name="login"> Login </string>
 
