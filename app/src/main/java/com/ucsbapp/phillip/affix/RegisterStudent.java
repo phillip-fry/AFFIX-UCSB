@@ -48,13 +48,8 @@ import static android.R.attr.type;
 
 public class RegisterStudent extends AppCompatActivity {
 
-    private Button registerbtn;
-    private EditText reciep;
     EditText firstname, lastname, umail, password, confpassword, phonenum;
     Spinner major, currentres;
-
-    private static final String REGISTER_URL = "http://sbaffix.eu.pn.RegisterUser.php";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +62,6 @@ public class RegisterStudent extends AppCompatActivity {
                 android.R.layout.simple_spinner_item);
         staticAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         currentResidence.setAdapter(staticAdapter);
-
 
         // Sets the Array list Majors into the Spinner
         Spinner majors = (Spinner) findViewById(R.id.MajorSpinner);
@@ -84,10 +78,7 @@ public class RegisterStudent extends AppCompatActivity {
         password = (EditText) findViewById(R.id.password);
         confpassword = (EditText) findViewById(R.id.confirmpassword);
         phonenum = (EditText) findViewById(R.id.phone);
-
-
     }
-
 
     public void REGISTER(View v) throws MessagingException {
 
@@ -112,23 +103,24 @@ public class RegisterStudent extends AppCompatActivity {
         final String phone = phonenum.getText().toString();
 
         //Check that user typed in the correct password
-        if (confpswd.equals(Password)) {
-
-        } else {
+        if (confpswd.equals(Password)) {/* do nothing*/ }
+        else {
             Toast.makeText(getApplicationContext(), "Passwords do not match", Toast.LENGTH_LONG).show();
             return;
         }
 
         //Create code for registration
-        Random var = new Random();
-        char one = (char) (var.nextInt(26) + 'a');
-        char two = (char) (var.nextInt(26) + 'a');
-        char three = (char) (var.nextInt(26) + 'a');
-        int first = var.nextInt(100) + 1;
-        int second = var.nextInt(100) + 1;
-        final String firstnum = Integer.toString(first);
-        String secondnum = Integer.toString(second);
-        final String code = one + firstnum + two + secondnum + three;
+        String allChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+        StringBuilder rand = new StringBuilder();
+        Random codegen = new Random();
+        while (rand.length() < 8){
+            int index = (int) (codegen.nextFloat() * allChars.length());
+            rand.append(allChars.charAt(index));
+        }
+
+
+        final String code = rand.toString();//one + firstnum + two + secondnum + three;
+
 
         /*       Check that email is not in use & send code         */
         String checkmailmethod = "EmailCheck";
@@ -143,6 +135,8 @@ public class RegisterStudent extends AppCompatActivity {
         alertBuilder.setView(view);
         final EditText userInput = (EditText) view.findViewById(R.id.inputcode);   //where user puts in code from email
 
+
+        /*     DO NOT NEED
         alertBuilder.setCancelable(false).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -156,6 +150,8 @@ public class RegisterStudent extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+
+        */
 
         final AlertDialog dialog = alertBuilder.create();
         dialog.show();

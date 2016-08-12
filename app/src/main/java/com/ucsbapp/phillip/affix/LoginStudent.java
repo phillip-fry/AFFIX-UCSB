@@ -48,11 +48,4 @@ public class LoginStudent extends AppCompatActivity {
         }
     }
 
-
-    public void changeAct(View v){
-        Intent intent = new Intent(LoginStudent.this, HomeScreen.class);
-        startActivity(intent);
-    }
-
-
 }
