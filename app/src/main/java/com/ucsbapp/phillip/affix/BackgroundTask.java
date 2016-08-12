@@ -1,7 +1,9 @@
 package com.ucsbapp.phillip.affix;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.ucsbapp.phillip.affix.Mail.SendMail;
@@ -179,6 +181,8 @@ public class BackgroundTask  extends AsyncTask<String,Void,String>{
                 httplogin.disconnect();
 
                 response = result;
+
+
             }
             catch (MalformedURLException e){
                 e.printStackTrace();
@@ -209,6 +213,8 @@ public class BackgroundTask  extends AsyncTask<String,Void,String>{
             SendMail sendMail = new SendMail(ctx, email, "Welcome to AFFIX-UCSB", body);
             //Now send the mail
             sendMail.execute();
+        }
+        if(response.equals("Welcome Back")){
         }
 
     }

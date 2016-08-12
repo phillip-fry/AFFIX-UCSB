@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.concurrent.ExecutionException;
+
 public class LoginStudent extends AppCompatActivity {
 
     EditText username;
@@ -30,9 +32,26 @@ public class LoginStudent extends AppCompatActivity {
     public void LoginUser(View view){
         String uname = username.getText().toString();
         String pswd = password.getText().toString();
-
+        String result = "";
         BackgroundTask login = new BackgroundTask(this);
-        login.execute("Login",uname,pswd);
+        try {
+            result = login.execute("Login", uname, pswd).get();
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        } catch (ExecutionException e){
+            e.printStackTrace();
+        }
+
+        if(result.equals("Welcome Back")){
+            Intent intent = new Intent(LoginStudent.this, HomeScreen.class);
+            startActivity(intent);
+        }
+    }
+
+
+    public void changeAct(View v){
+        Intent intent = new Intent(LoginStudent.this, HomeScreen.class);
+        startActivity(intent);
     }
 
 
