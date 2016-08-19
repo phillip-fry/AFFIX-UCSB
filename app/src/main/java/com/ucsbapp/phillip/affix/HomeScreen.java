@@ -1,7 +1,11 @@
 package com.ucsbapp.phillip.affix;
 
 import android.support.design.widget.TabLayout;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +15,69 @@ import android.view.MenuItem;
 
 public class HomeScreen extends AppCompatActivity {
 
-    //These are all the necessary variables to make the tabs
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home_screen);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        assert tabLayout != null;
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.smartsell));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.VTour));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.GauchoLink));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        final PagerAdapter adapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+
+            @Override
+            public Fragment getItem(int position) {
+                switch (position) {
+                    case 0:
+                        return new BuySellFragment();
+                    case 1:
+                        return new VTourFragment();
+                    case 2:
+                        return new GauchoLinkFragment();
+                }
+                return null;
+            }
+
+            @Override
+            public int getCount() {
+                return 3;
+            }
+        };
+        assert viewPager != null;
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+}
+
+
+
+
+    /*
+
+    //These are all the necessary variables to make the tab
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -44,24 +110,24 @@ public class HomeScreen extends AppCompatActivity {
 
         final TabLayout.Tab SmartSell = tabLayout.newTab();
         final TabLayout.Tab VTours = tabLayout.newTab();
-        final TabLayout.Tab GauchoLink = tabLayout.newTab();
+        final TabLayout.Tab rGauchoLink = tabLayout.newTab();
 
 
-        //Set Title text for tabs
+        //Set Title text for tab
 
         SmartSell.setText("SmartSell");
         VTours.setText("VTours");
-        GauchoLink.setText("GauchoLink");
+        rGauchoLink.setText("rGauchoLink");
 
-        // Position the tabs in this order
+        // Position the tab in this order
         tabLayout.addTab(SmartSell, 0);
         tabLayout.addTab(VTours, 1);
-        tabLayout.addTab(GauchoLink, 2);
+        tabLayout.addTab(rGauchoLink, 2);
 
 
-        //TabTextColor: sets the color for the title of the tabs,
+        //TabTextColor: sets the color for the title of the tab,
         //ColorStateList here makes tab change colors when selected, active, inactive etc
-        // TabIndicatorColor sets the color for the indiactor below the tabs
+        // TabIndicatorColor sets the color for the indiactor below the tab
 
         tabLayout.setTabTextColors(ContextCompat.getColorStateList(this, R.drawable.tab_selector));
         tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.colorAccent));
@@ -99,4 +165,4 @@ public class HomeScreen extends AppCompatActivity {
     }
 }
 
-
+*/

@@ -75,4 +75,10 @@
     <string name="goRegister">Don\'t have an account? Register here.</string>
     <string name="login"> Login </string>
 
+
+    !- Strigns for the tabs -!
+    <string name="smartsell"> Smart Sell</string>
+    <string name="VTour"> VTour </string>
+    <string name="GauchoLink"> GauchoLink</string>
+
 </resources>

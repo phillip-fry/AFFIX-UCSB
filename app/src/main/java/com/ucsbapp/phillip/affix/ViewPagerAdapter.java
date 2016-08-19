@@ -15,19 +15,31 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+        switch (position) {
+            case 0:
+                return new BuySellFragment();
+            case 1:
+                return new VTourFragment();
+            case 3:
+                return new BuySellFragment();
+        }
+        return null;
+    }
+        /*
         if(position == 0){
-            return new TabFragment();
+            return new BuySellFragment();
         }
         else{
 
         }
         // tells which Fragment to display with the viewpager for tab position
-        return new TabFragment();
-    }
+        return new BuySellFragment();
+        */
+
 
     @Override
     public int getCount() {
-        //Tells the number of tabs to make
+        //Tells the number of tab to make
         return 3;
     }
 }

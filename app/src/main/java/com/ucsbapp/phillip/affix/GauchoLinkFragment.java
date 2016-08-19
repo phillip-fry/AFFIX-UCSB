@@ -7,11 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Created by Phillip on 8/14/2016.
+ * Created by admin on 8/19/16.
  */
-public class TwoTabFrag extends Fragment{
+
+public class GauchoLinkFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.tab_two, container, false);
+        return inflater.inflate(R.layout.gaucholinkfragment, container, false);
     }
 }
