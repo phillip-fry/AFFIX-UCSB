@@ -20,7 +20,7 @@
         android:textStyle="bold"
         android:textColor="#000"
         android:fontFamily="Comic Sans"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/UserNameText"
         android:layout_centerHorizontal="true" />
 
     <TextView
@@ -93,4 +93,6 @@
         android:layout_centerHorizontal="true"
         android:onClick="GoToRegistration"
         android:clickable="true"/>
+
+
 </RelativeLayout>
