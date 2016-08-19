@@ -4,14 +4,18 @@ import android.support.design.widget.TabLayout;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuItem;
+
+import com.ucsbapp.phillip.affix.TabFragments.BuySellFragment;
+import com.ucsbapp.phillip.affix.TabFragments.GauchoLinkFragment;
+import com.ucsbapp.phillip.affix.TabFragments.VTourFragment;
+
+import javax.microedition.khronos.opengles.GL;
 
 public class HomeScreen extends AppCompatActivity {
 
@@ -19,15 +23,31 @@ public class HomeScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setTitle("Gaucho Sell");
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         assert tabLayout != null;
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.smartsell));
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.VTour));
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.GauchoLink));
+        //tabLayout.addTab(tabLayout.newTab().setText(R.string.smartsell));
+        //tabLayout.addTab(tabLayout.newTab().setText(R.string.VTour));
+        //tabLayout.addTab(tabLayout.newTab().setText(R.string.GauchoLink));
+
+        final TabLayout.Tab buyORsell = tabLayout.newTab();
+        final TabLayout.Tab VTour = tabLayout.newTab();
+        final TabLayout.Tab GLink = tabLayout.newTab();
+
+        buyORsell.setIcon(R.drawable.colormoney);
+        VTour.setIcon(R.drawable.vrtour);
+        GLink.setIcon(R.drawable.glink);
+
+        tabLayout.addTab(buyORsell, 0);
+        tabLayout.addTab(VTour, 1);
+        tabLayout.addTab(GLink, 2);
+
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         final PagerAdapter adapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
@@ -50,9 +70,49 @@ public class HomeScreen extends AppCompatActivity {
                 return 3;
             }
         };
+
+
+
+
         assert viewPager != null;
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels){
+
+        }
+
+        @Override
+            public void onPageSelected(int position){
+                switch(position){
+                    case 0:
+                        buyORsell.setIcon(R.drawable.colormoney);
+                        VTour.setIcon(R.drawable.vrtour);
+                        GLink.setIcon(R.drawable.glink);
+                        getSupportActionBar().setTitle("Gaucho Sell");
+                        break;
+                    case 1:
+                        VTour.setIcon(R.drawable.vrcolor);
+                        buyORsell.setIcon(R.drawable.moneybag);
+                        GLink.setIcon(R.drawable.glink);
+                        getSupportActionBar().setTitle("Virtual Tours");
+                        break;
+                    case 2:
+                        GLink.setIcon(R.drawable.glinkcolor);
+                        buyORsell.setIcon(R.drawable.moneybag);
+                        VTour.setIcon(R.drawable.vrtour);
+                        getSupportActionBar().setTitle("Community Forums");
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state){
+
+            }
+        });
+        tabLayout.setSelectedTabIndicatorHeight((int) (5 * getResources().getDisplayMetrics().density));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -69,8 +129,19 @@ public class HomeScreen extends AppCompatActivity {
 
             }
         });
+        viewPager.setCurrentItem(0);
+
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
 }
+
 
 
 

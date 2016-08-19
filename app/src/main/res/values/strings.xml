@@ -80,5 +80,7 @@
     <string name="smartsell"> Smart Sell</string>
     <string name="VTour"> VTour </string>
     <string name="GauchoLink"> GauchoLink</string>
+    !- Strings for the Actionbar Overflow -!
+    <string name="profile"> My Profile </string>
 
 </resources>
